@@ -1,4 +1,4 @@
-Chinese ： 
+中文 ： https://github.com/Fffyuexue/DevSafe/blob/main/README-Chinese.md
 # DevSafe Module Documentation
 
 ## I. Module Overview
