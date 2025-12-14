@@ -1,100 +1,102 @@
 Chinese ： 
-# DevSafe 模块说明文档
+# DevSafe Module Documentation
 
-## 一、模块概述
+## I. Module Overview
 
-**DevSafe** 是一款由 **春日ユズキ（Kasuga Yuzuki）** 开发的  
-用于 **Android 设备保护镜像分区** 的 **KernelPatchModule（以下简称 KPM）** 模块。
+**DevSafe** is a **KernelPatchModule (hereinafter referred to as KPM)** developed by  
+**春日ユズキ (Kasuga Yuzuki)**, designed to protect **Android device image partitions**.
 
-该模块旨在防止设备运行时的镜像分区被恶意或异常篡改，从而避免可能造成的  
-**不可逆系统损坏或金钱损失**。  
-其定位为一款**功能性、安全性优先**的核心防护模块。
+The module aims to prevent malicious or abnormal modifications to the runtime image partitions,  
+thereby avoiding **irreversible system damage or potential financial loss**.  
+It is positioned as a **security-oriented, functionality-focused** core protection module.
 
-DevSafe 可运行于支持 KPM 的 Root 实现环境中，例如：
+DevSafe can operate within Root implementations that support KPM execution, including but not limited to:
 
 - FolkPatch  
 - APatch  
 
-用户可根据自身需求选择将其 **嵌入** 或 **动态加载**。
+Users may choose to **embed** or **dynamically load** the module according to their preferences.
 
 ---
 
-## 二、工作机制与使用原则
+## II. Operational Principles
 
-在 **正常情况下**，当 DevSafe 模块被启用后：
+Under **normal circumstances**, once DevSafe is enabled:
 
-- 模块将自动对镜像分区写入行为进行防护  
-- 无需用户进行任何额外操作  
+- The module automatically protects image partitions from unauthorized write operations  
+- No additional user interaction is required  
 
-但在某些 **必须写入镜像分区的场景** 下，  
-需要通过 **传递运行参数** 的方式对模块行为进行调整。
-
----
-
-## 三、需要调整参数的典型场景
-
-在以下操作前，请务必关注并正确配置 DevSafe 参数：
-
-1. **系统 OTA 更新**
-2. **安装或卸载其他 KPM 模块**
-3. **任何需要写入镜像分区的维护或修改操作**
-4. **其他涉及底层镜像变更的场景**
+However, in certain scenarios where **legitimate image partition writes are necessary**,  
+the module behavior must be adjusted by **passing runtime parameters**.
 
 ---
 
-## 四、参数说明（实时生效）
+## III. Scenarios Requiring Parameter Adjustment
 
-DevSafe 支持通过参数控制防护状态，参数在传递后 **即时生效**。
+Please ensure proper parameter configuration before performing the following operations:
 
-### 1. 参数 `"0"` —— 关闭防护
-
-**功能说明：**
-
-- 完全关闭镜像分区写入拦截
-- 系统将允许所有合法写入操作正常执行
-
-**适用场景包括但不限于：**
-
-- 系统 OTA 更新前  
-- 安装或卸载其他 KPM 模块时  
-- Root 实现需要向镜像分区写入数据的操作  
-
-> 在该状态下，DevSafe 不会对任何镜像写入行为进行干预。
+1. **System OTA updates**
+2. **Installation or removal of other KPM modules**
+3. **Maintenance or modification operations involving image partitions**
+4. **Any other actions that require writing to image partitions**
 
 ---
 
-### 2. 参数 `"1"` —— 开启防护
+## IV. Parameter Description (Effective Immediately)
 
-**功能说明：**
+DevSafe allows real-time control of its protection status via parameters.  
+All parameter changes take effect **immediately**.
 
-- 启用镜像分区写入防护
-- 恢复对异常或未授权写入行为的拦截能力
+### 1. Parameter `"0"` — Disable Protection
 
-**使用建议：**
+**Description:**
 
-- 在完成所有需要写入镜像分区的操作后  
-- 立即重新传递参数 `"1"`  
-- 以确保设备重新处于受保护状态  
+- Completely disables image partition write interception  
+- Allows all legitimate write operations to proceed without restriction  
 
-该参数通常与 `"0"` 配合使用，形成明确的“关闭 → 操作 → 恢复防护”流程。
+**Applicable scenarios include (but are not limited to):**
 
----
+- Prior to system OTA updates  
+- When installing or uninstalling other KPM modules  
+- When the Root implementation needs to write data into image partitions  
 
-## 五、更新与维护说明
-
-由于 DevSafe 的功能具有 **高度时效性**，  
-且 **KernelPatch 当前未提供云端自动更新机制**，请注意：
-
-- 定期访问项目的 **GitHub 仓库**
-- 及时检查模块更新或兼容性调整
-- 在系统或 KernelPatch 发生重大变更后，优先确认模块状态
+> In this state, DevSafe will not interfere with any image partition write operations.
 
 ---
 
-## 六、总结
+### 2. Parameter `"1"` — Enable Protection
 
-DevSafe 是一款面向底层安全场景设计的专业防护模块，  
-其正确使用依赖于用户对系统操作流程的清晰认知。
+**Description:**
 
-**请务必在需要写入镜像分区前主动调整参数，并在操作完成后恢复防护。**  
-这将是保障设备安全与系统稳定运行的关键步骤。
+- Enables image partition write protection  
+- Restores interception of abnormal or unauthorized write attempts  
+
+**Usage recommendation:**
+
+- After completing any operation that requires image partition writes  
+- Immediately re-pass parameter `"1"`  
+- To ensure the device returns to a protected state  
+
+This parameter is typically used in conjunction with `"0"`,  
+forming a clear **disable → operate → re-enable protection** workflow.
+
+---
+
+## V. Update and Maintenance Notes
+
+Due to the **high time-sensitivity** of DevSafe’s functionality,  
+and the fact that **KernelPatch currently does not provide a cloud update mechanism**, users should:
+
+- Regularly visit the project’s **GitHub repository**
+- Check for module updates or compatibility adjustments in a timely manner
+- Verify module status after major system or KernelPatch changes
+
+---
+
+## VI. Summary
+
+DevSafe is a professional protection module designed for low-level system security scenarios.  
+Its correct usage relies on a clear understanding of system operation workflows.
+
+**Always adjust parameters before writing to image partitions, and restore protection immediately after.**  
+This practice is essential for maintaining device security and long-term system stability.
